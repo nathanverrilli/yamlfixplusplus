@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-//goland:noinspection SpellCheckingInspection
+//goland:noinspection SpellCheckingInspection just because
 const CSVSEPCHAR = "\t"
 const NEWLINECHAR = "\n"
 
