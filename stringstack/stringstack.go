@@ -1,9 +1,7 @@
 package stringstack
 
-import (
-	"strings"
-	"sync"
-)
+import "strings"
+import "sync"
 
 type StringStack struct {
 	count int
@@ -11,21 +9,13 @@ type StringStack struct {
 	lock  sync.RWMutex
 }
 
-func (ns *StringStack) Rlock() {
-	ns.lock.RLock()
-}
-func (ns *StringStack) RUnlock() {
-	ns.lock.RUnlock()
-}
-func (ns *StringStack) Lock() {
-	ns.lock.Lock()
-}
-func (ns *StringStack) Unlock() {
-	ns.lock.Unlock()
-}
+func (ns *StringStack) RLock()   { ns.lock.RLock() }
+func (ns *StringStack) RUnlock() { ns.lock.RUnlock() }
+func (ns *StringStack) Lock()    { ns.lock.Lock() }
+func (ns *StringStack) Unlock()  { ns.lock.Unlock() }
 
 func (ns *StringStack) GetCount() (count int) {
-	ns.Rlock()
+	ns.RLock()
 	{
 		count = ns.count
 	}
@@ -48,12 +38,11 @@ func (ns *StringStack) Push(s string) {
 		ns.data[ns.count] = s
 		ns.count++
 	}
-	ns.RUnlock()
-
+	ns.Unlock()
 }
 
 func (ns *StringStack) Peek() (s string) {
-	ns.lock.RLock()
+	ns.RLock()
 	{
 		// s = ns.Count <= 0 ? "" : ns.data[ns.count-1];
 		if ns.count <= 0 {
@@ -61,25 +50,25 @@ func (ns *StringStack) Peek() (s string) {
 		} else {
 			s = ns.data[ns.count-1]
 		}
-		ns.lock.RUnlock()
+		ns.RUnlock()
 	}
 	return s
 }
 
 func (ns *StringStack) Pop() {
-	ns.lock.Lock()
+	ns.Lock()
 	{
 		if ns.count > 0 {
 			ns.count--
 			delete(ns.data, ns.count)
 		}
 	}
-	ns.lock.Unlock()
+	ns.Unlock()
 }
 
 func (ns *StringStack) String() (s string) {
 	var sb strings.Builder
-	ns.lock.RLock()
+	ns.RLock()
 	{
 		for ix := 0; ix < ns.count; ix++ {
 			sb.WriteString(ns.data[ix])
@@ -88,6 +77,6 @@ func (ns *StringStack) String() (s string) {
 			}
 		}
 	}
-	ns.lock.RUnlock()
+	ns.RUnlock()
 	return sb.String()
 }
