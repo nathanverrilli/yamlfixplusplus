@@ -12,7 +12,7 @@ import (
 	"github.com/spf13/pflag"
 )
 
-//goland:noinspection SpellCheckingInspection just because
+//goland:noinspection SpellCheckingInspection
 const CSVSEPCHAR = "\t"
 const NEWLINECHAR = "\n"
 
@@ -52,7 +52,7 @@ func InitFlags() {
 
 	nFlags = pflag.NewFlagSet("default", pflag.ContinueOnError)
 	nFlags.BoolP("expand-only", "", false, "Do not create JSON parameter tables")
-	nFlags.StringP("infile", "i", "input.yaml", "name of YAML file to process")
+	nFlags.StringP("infile", "i", "xtrm_input.yaml", "name of YAML file to process")
 	nFlags.StringP("outfile", "o", "output.json", "name of processed (output) JSON file")
 	nFlags.IntP("indent", "n", 2, "Spaces to use for each indent level")
 	nFlags.BoolP("help", "h", false, "Display help message and usage information")
