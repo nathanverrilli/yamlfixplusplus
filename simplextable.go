@@ -10,6 +10,7 @@ import (
 // SimplexEnhanceDescriptions
 // Find the lower-level parameters, and build a
 // table of descriptions
+// todo: handle get, delete, patch, & update paths
 func SimplexEnhanceDescriptions(api *oas.T) {
 
 	// this strips the required column from the response table
@@ -25,10 +26,20 @@ func SimplexEnhanceDescriptions(api *oas.T) {
 	}
 
 	for _, val01 := range api.Paths {
+		// todo: deal with non-Post paths
+		if nil == val01.Post ||
+			nil == val01.Post.RequestBody ||
+			nil == val01.Post.RequestBody.Value ||
+			nil == val01.Post.RequestBody.Value.Content ||
+			nil == val01.Post.RequestBody.Value.Content[KeyAppJson] {
+			continue
+		}
 		requestTableRows = ""
 		// avoid issues if no application/json body
-		if schema, ok := val01.Post.RequestBody.Value.Content[KeyAppJson]; ok {
-			requestTableRows = getSchemaProperties(schema.Schema, "", nil)
+		if nil != val01.Post {
+			if schema, ok := val01.Post.RequestBody.Value.Content[KeyAppJson]; ok {
+				requestTableRows = getSchemaProperties(schema.Schema, "", nil)
+			}
 		}
 
 		responseTableRows = ""

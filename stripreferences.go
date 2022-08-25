@@ -55,6 +55,7 @@ func StripPathItem(item *oas.PathItem) {
 // within it. That consists of cleaning the Schema
 // references and callbacks (which are PathItems)
 func StripOperationReferences(op *oas.Operation) {
+	// todo: fix for non-Post (no requestbody) operations
 	if nil == op {
 		return
 	}
